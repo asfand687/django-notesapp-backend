@@ -5,7 +5,10 @@ from rest_framework.generics import CreateAPIView
 from rest_framework.generics import DestroyAPIView
 from rest_framework.generics import RetrieveAPIView
 from rest_framework.generics import UpdateAPIView
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from .models import Note
+from rest_framework.permissions import IsAuthenticated
 from .serializers import NoteSerializer
 
 # Create your views here.
@@ -34,3 +37,11 @@ class UpdateNote(UpdateAPIView):
 class DeleteNote(DestroyAPIView):
     queryset = Note.objects.all()
     serializer_class = NoteSerializer
+
+
+class HelloView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        content = {'message': 'Hello, World!'}
+        return Response(content)
